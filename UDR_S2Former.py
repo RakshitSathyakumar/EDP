@@ -6,8 +6,10 @@ import math
 import time
 from base_net_snow import *
 import torch.nn.functional as F
-if torch.cuda.is_available():
-     device = torch.device("cuda:0")
+# if torch.cuda.is_available():
+
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+    # device = torch.device("cuda:0")
 def _to_channel_last(x):
     """
     Args:

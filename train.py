@@ -213,22 +213,46 @@ class CoolSystem(pl.LightningModule):
         
         return val_loader
     
+# def cli_main():
+#     checkpoint_callback = ModelCheckpoint(
+#     monitor='psnr',
+#     filename='RainDrop-Base-epoch{epoch:02d}-psnr{psnr:.3f}-ssim{ssim:.3f}',
+#     auto_insert_metric_name=False,   
+#     every_n_epochs=1,
+#     save_top_k=6,
+#     mode = "max",
+#     save_last=True
+#     )
+#     trainer_defaults = {'devices':[1,2,3],'callbacks':[checkpoint_callback,lr_monitor],'logger':logger}
+#     cli = LightningCLI(
+#                        model_class=CoolSystem,
+#                        trainer_defaults=trainer_defaults,
+#                        )
+    
 def cli_main():
     checkpoint_callback = ModelCheckpoint(
-    monitor='psnr',
-    filename='RainDrop-Base-epoch{epoch:02d}-psnr{psnr:.3f}-ssim{ssim:.3f}',
-    auto_insert_metric_name=False,   
-    every_n_epochs=1,
-    save_top_k=6,
-    mode = "max",
-    save_last=True
+        monitor='psnr',
+        filename='RainDrop-Base-epoch{epoch:02d}-psnr{psnr:.3f}-ssim{ssim:.3f}',
+        auto_insert_metric_name=False,
+        every_n_epochs=1,
+        save_top_k=6,
+        mode="max",
+        save_last=True
     )
-    trainer_defaults = {'devices':[1,2,3],'callbacks':[checkpoint_callback,lr_monitor],'logger':logger}
-    cli = LightningCLI(
-                       model_class=CoolSystem,
-                       trainer_defaults=trainer_defaults,
-                       )
     
+    logger = TensorBoardLogger("logs", name="my_experiment")
+    
+    trainer_defaults = {
+        'gpus': [1, 2, 3],
+        'callbacks': [checkpoint_callback],
+        'logger': logger
+    }
+    
+    cli = LightningCLI(
+        model_class=CoolSystem,
+        trainer_defaults=trainer_defaults
+    )
+
     
 if __name__ == '__main__':
 	#your code

@@ -16,7 +16,7 @@ if torch.cuda.is_available():
      device = torch.device("cuda:0")
 
 def load_model_weights(model, weights_path):
-    model.load_state_dict(torch.load(weights_path))
+    model.load_state_dict(torch.load(weights_path,map_location=torch.device('cpu')))
     return model
 
 def load_image(image_path):

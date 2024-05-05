@@ -56,7 +56,7 @@ if __name__ == '__main__':
     opt.model_path = opt.model_path + opt.dataset_type + '.pth'
     g1ckpt1 = opt.model_path
     ckpt = torch.load(g1ckpt1)
-    netG_1.load_state_dict(ckpt)
+    netG_1.load_state_dict(ckpt,map_location=torch.device('cpu'))
 
     savepath_dataset = os.path.join(opt.savepath,opt.dataset_type)
     if not os.path.exists(savepath_dataset):
